@@ -11,7 +11,7 @@
     "rootDir": "src",
     "baseUrl": "src",
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "suppressImplicitAnyIndexErrors": true,

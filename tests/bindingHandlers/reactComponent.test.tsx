@@ -1,10 +1,11 @@
 import ko from "knockout";
 import React from "react";
+import ReactDOM from "react-dom";
 import { reactComponentBindingHandler } from "../../src/index";
 import { setupKoTest } from "../koTestUtils";
 
-reactComponentBindingHandler.register();
-reactComponentBindingHandler.registerShorthandSyntax();
+reactComponentBindingHandler.register(React, ReactDOM, ko);
+reactComponentBindingHandler.registerShorthandSyntax(ko);
 
 const Greeter = ({name = "World"}: {name: string}) => (
     <div>Hello, {name}</div>

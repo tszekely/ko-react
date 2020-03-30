@@ -1,6 +1,6 @@
-import ko from "knockout";
-import React, { ComponentClass } from "react";
-import ReactDOM from "react-dom";
+// import ko from "knockout";
+import { ComponentClass } from "react";
+// import ReactDOM from "react-dom";
 
 export interface ReactComponentBindingValue {
     Component: ComponentClass;
@@ -9,7 +9,7 @@ export interface ReactComponentBindingValue {
     params?: any;
 }
 
-const bindingHandler: KnockoutBindingHandler<HTMLElement, ReactComponentBindingValue> = {
+const bindingHandler: (React, ReactDOM, ko) => KnockoutBindingHandler<HTMLElement, ReactComponentBindingValue> = (React, ReactDOM, ko) => ({
     init(element) {
         ko.utils.domNodeDisposal.addDisposeCallback(element, () => ReactDOM.unmountComponentAtNode(element));
         return { controlsDescendantBindings: true };
@@ -34,14 +34,14 @@ const bindingHandler: KnockoutBindingHandler<HTMLElement, ReactComponentBindingV
             ),
         );
     },
-};
+});
 
 const noop = (() => {/* noop */});
 const registrars = {
-    register() {
-        ko.bindingHandlers.reactComponent = bindingHandler;
+    register(React, ReactDOM, ko) {
+        ko.bindingHandlers.reactComponent = bindingHandler(React, ReactDOM, ko);
     },
-    registerShorthandSyntax(bindingHandlerName = "reactComponent") {
+    registerShorthandSyntax(ko, bindingHandlerName = "reactComponent") {
         const existingPreprocessNode = (ko.bindingProvider.instance as any).preprocessNode || noop;
         (ko.bindingProvider.instance as any).preprocessNode = function(node: Node) {
             if (node.nodeType === 8) {
